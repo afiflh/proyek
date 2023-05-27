@@ -1,6 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\FlowController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InformationController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +20,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('logout', [LoginController::class, 'logout']);
+Route::middleware(['auth', 'ceklevel:admin'])->group(function(){
+    Route::get('/booking', [BookingController::class, 'index']);
+});
+Route::middleware(['auth', 'ceklevel:admin,user'])->group(function(){
+    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/information', [InformationController::class, 'index']);
+    Route::get('/gallery', [GalleryController::class, 'index']);
+    Route::get('/flow', [FlowController::class, 'index']);
+    Route::get('/booking', [BookingController::class, 'index']);
 });
