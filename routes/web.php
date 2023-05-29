@@ -6,6 +6,7 @@ use App\Http\Controllers\FlowController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\KuotaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,4 +33,7 @@ Route::middleware(['auth', 'ceklevel:admin,user'])->group(function(){
     Route::get('/gallery', [GalleryController::class, 'index']);
     Route::get('/flow', [FlowController::class, 'index']);
     Route::get('/booking', [BookingController::class, 'index']);
+    Route::get('/cek-kuota', [KuotaController::class, 'cekKuota'])->name('cek-kuota');
+    Route::get('/booking', [BookingController::class, 'create'])->name('booking.create');
+    Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 });
